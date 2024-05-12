@@ -1,0 +1,142 @@
+// AdvancedCalculator.java
+
+import java.util.Scanner;
+
+public class AdvancedCalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Advanced Calculator!");
+
+        while (true) {
+            System.out.println("\nAvailable Operations:");
+            System.out.println("1. Addition (+)");
+            System.out.println("2. Subtraction (-)");
+            System.out.println("3. Multiplication (*)");
+            System.out.println("4. Division (/)");
+            System.out.println("5. Exponentiation (^)");
+            System.out.println("6. Square Root (sqrt)");
+            System.out.println("7. Sine (sin)");
+            System.out.println("8. Cosine (cos)");
+            System.out.println("9. Natural Logarithm (ln)");
+            System.out.println("10. Exit");
+
+            System.out.print("\nEnter your choice (1-10): ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    performAddition(scanner);
+                    break;
+                case 2:
+                    performSubtraction(scanner);
+                    break;
+                case 3:
+                    performMultiplication(scanner);
+                    break;
+                case 4:
+                    performDivision(scanner);
+                    break;
+                case 5:
+                    performExponentiation(scanner);
+                    break;
+                case 6:
+                    performSquareRoot(scanner);
+                    break;
+                case 7:
+                    performSine(scanner);
+                    break;
+                case 8:
+                    performCosine(scanner);
+                    break;
+                case 9:
+                    performNaturalLogarithm(scanner);
+                    break;
+                case 10:
+                    System.out.println("Exiting Advanced Calculator. Goodbye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void performAddition(Scanner scanner) {
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+        System.out.println("Result: " + (num1 + num2));
+    }
+
+    private static void performSubtraction(Scanner scanner) {
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+        System.out.println("Result: " + (num1 - num2));
+    }
+
+    private static void performMultiplication(Scanner scanner) {
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+        System.out.println("Result: " + (num1 * num2));
+    }
+
+    private static void performDivision(Scanner scanner) {
+        System.out.print("Enter dividend: ");
+        double dividend = scanner.nextDouble();
+        System.out.print("Enter divisor: ");
+        double divisor = scanner.nextDouble();
+        if (divisor != 0) {
+            System.out.println("Result: " + (dividend / divisor));
+        } else {
+            System.out.println("Error: Cannot divide by zero");
+        }
+    }
+
+    private static void performExponentiation(Scanner scanner) {
+        System.out.print("Enter base: ");
+        double base = scanner.nextDouble();
+        System.out.print("Enter exponent: ");
+        double exponent = scanner.nextDouble();
+        System.out.println("Result: " + Math.pow(base, exponent));
+    }
+
+    private static void performSquareRoot(Scanner scanner) {
+        System.out.print("Enter number: ");
+        double number = scanner.nextDouble();
+        if (number >= 0) {
+            System.out.println("Result: " + Math.sqrt(number));
+        } else {
+            System.out.println("Error: Invalid input for square root");
+        }
+    }
+
+    private static void performSine(Scanner scanner) {
+        System.out.print("Enter angle in degrees: ");
+        double angleDegrees = scanner.nextDouble();
+        double angleRadians = Math.toRadians(angleDegrees);
+        System.out.println("Result: " + Math.sin(angleRadians));
+    }
+
+    private static void performCosine(Scanner scanner) {
+        System.out.print("Enter angle in degrees: ");
+        double angleDegrees = scanner.nextDouble();
+        double angleRadians = Math.toRadians(angleDegrees);
+        System.out.println("Result: " + Math.cos(angleRadians));
+    }
+
+    private static void performNaturalLogarithm(Scanner scanner) {
+        System.out.print("Enter number (must be > 0): ");
+        double number = scanner.nextDouble();
+        if (number > 0) {
+            System.out.println("Result: " + Math.log(number));
+        } else {
+            System.out.println("Error: Invalid input for natural logarithm");
+        }
+    }
+}

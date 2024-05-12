@@ -1,0 +1,69 @@
+//Xml Program
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version>
+</dependency>
+
+//CurrencyConverter.java
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class CurrencyConverter {
+    private static final String API_URL = "https://api.exchangeratesapi.io/latest";
+
+    public static void main(String[] args) {
+        try {
+            // Make HTTP GET request to the API
+            URL url = new URL(API_URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Read response
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            // Parse JSON response
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(response.toString());
+
+            // Extract exchange rates
+            JSONObject rates = (JSONObject) json.get("rates");
+
+            // Get user input for conversion
+            BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Enter base currency (e.g., USD):");
+            String baseCurrency = userInputReader.readLine().toUpperCase();
+
+            System.out.println("Enter target currency (e.g., EUR):");
+            String targetCurrency = userInputReader.readLine().toUpperCase();
+
+            System.out.println("Enter amount:");
+            double amount = Double.parseDouble(userInputReader.readLine());
+
+            // Perform currency conversion
+            double baseRate = (double) rates.get(baseCurrency);
+            double targetRate = (double) rates.get(targetCurrency);
+
+            double convertedAmount = (amount / baseRate) * targetRate;
+
+            // Display result
+            System.out.println(amount + " " + baseCurrency + " = " + convertedAmount + " " + targetCurrency);
+
+        } catch (IOException | ParseException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+}

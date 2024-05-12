@@ -1,0 +1,138 @@
+// Account.java
+
+public class Account {
+    private int accountNumber;
+    private String ownerName;
+    private double balance;
+
+    public Account(int accountNumber, String ownerName, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.ownerName = ownerName;
+        this.balance = initialBalance;
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposit successful.");
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawal successful.");
+        } else {
+            System.out.println("Insufficient funds or invalid amount.");
+        }
+    }
+}
+
+//BankingSystem.java
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class BankingSystem {
+    private Map<Integer, Account> accounts;
+    private int nextAccountNumber;
+
+    public BankingSystem() {
+        this.accounts = new HashMap<>();
+        this.nextAccountNumber = 1000; // Start account numbers from 1000
+    }
+
+    public int createAccount(String ownerName, double initialBalance) {
+        int accountNumber = nextAccountNumber++;
+        Account account = new Account(accountNumber, ownerName, initialBalance);
+        accounts.put(accountNumber, account);
+        return accountNumber;
+    }
+
+    public Account getAccount(int accountNumber) {
+        return accounts.get(accountNumber);
+    }
+
+    public void performDeposit(int accountNumber, double amount) {
+        Account account = accounts.get(accountNumber);
+        if (account != null) {
+            account.deposit(amount);
+        } else {
+            System.out.println("Account not found.");
+        }
+    }
+
+    public void performWithdrawal(int accountNumber, double amount) {
+        Account account = accounts.get(accountNumber);
+        if (account != null) {
+            account.withdraw(amount);
+        } else {
+            System.out.println("Account not found.");
+        }
+    }
+
+    public static void main(String[] args) {
+        BankingSystem bankingSystem = new BankingSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Online Banking System!");
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\nSelect an option:");
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Exit");
+
+            int option = scanner.nextInt();
+
+            switch (option) {
+                case 1:
+                    System.out.println("Enter owner's name:");
+                    String ownerName = scanner.next();
+                    System.out.println("Enter initial balance:");
+                    double initialBalance = scanner.nextDouble();
+                    int accountNumber = bankingSystem.createAccount(ownerName, initialBalance);
+                    System.out.println("Account created successfully. Account Number: " + accountNumber);
+                    break;
+                case 2:
+                    System.out.println("Enter account number:");
+                    int depositAccountNumber = scanner.nextInt();
+                    System.out.println("Enter amount to deposit:");
+                    double depositAmount = scanner.nextDouble();
+                    bankingSystem.performDeposit(depositAccountNumber, depositAmount);
+                    break;
+                case 3:
+                    System.out.println("Enter account number:");
+                    int withdrawAccountNumber = scanner.nextInt();
+                    System.out.println("Enter amount to withdraw:");
+                    double withdrawAmount = scanner.nextDouble();
+                    bankingSystem.performWithdrawal(withdrawAccountNumber, withdrawAmount);
+                    break;
+                case 4:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+
+        System.out.println("Thank you for using Online Banking System!");
+    }
+}
